@@ -18,11 +18,11 @@
     <% grant = item.first; rand = item.last %>
     <div class="row">
       <div class="chart">
-        <h1><%= grant[:meta][:time] %> (<%= (grant[:meta][:percent_change] * 100).round(2) %>%): gain <%= (grant[:meta][:percent_gain] * 100).round(2) %></h1>
+        <h1><%= grant[:meta][:time] %> (<%= (grant[:meta][:percent_change] * 100).round(2) %>%): gain <%= (grant[:meta][:percent_gain] * 100).round(2) %>%</h1>
         <div class="grant" id="grant-<%= index %>"></div>
       </div>
       <div class="chart">
-        <h1><%= rand[:meta][:time] %> (<%= (rand[:meta][:percent_change] * 100).round(2) %>%) : gain <%= (rand[:meta][:percent_gain] * 100).round(2) %></h1>
+        <h1><%= rand[:meta][:time] %> (<%= (rand[:meta][:percent_change] * 100).round(2) %>%) : gain <%= (rand[:meta][:percent_gain] * 100).round(2) %>%</h1>
         <div class="random" id="random-<%= index %>"></div>
       </div>
     </div>
