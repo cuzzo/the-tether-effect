@@ -6,7 +6,7 @@ require "json"
 TIME_SERIES = JSON.parse(File.read("data/coinbaseUSD-mm.json"))
 
 def get_section(timestamp)
-  len = 60 * 6 # SIX HOURS
+  len = 60 * 12 # SIX HOURS
 
   start = TIME_SERIES.each_with_index.detect { |t, i| t.first > timestamp - (60 * len) }
   time_of = TIME_SERIES.each_with_index.detect { |t, i| t.first > timestamp }
@@ -60,7 +60,7 @@ randos = grants
   .sort
   .map { |timestamp| get_section(timestamp) }
 
-File.write("tether-effect.json", {
+File.write("tether-effect-long.json", {
   grants: grants,
   random: randos
 }.to_json)

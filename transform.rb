@@ -2,6 +2,7 @@
 
 require "json"
 require "date"
+require "byebug"
 
 grants = File
   .read("data/tether-grants.txt")
@@ -12,7 +13,8 @@ grants = File
     date_time = parts.first.split(" ", 2)
     date = date_time.first.split("/")
     date = "#{date[2]}.#{date[0]}.#{date[1]}"
-    time = DateTime.parse("#{date} #{date_time.last}")
+    time = DateTime.parse("#{date} #{date_time.last} GMT")
+    byebug
 
     {
       timestamp: time.to_time.to_i,
