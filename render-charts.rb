@@ -22,17 +22,22 @@ def options(grant)
     chartPadding: {
       right: 40,
     },
-    high: [grant[4] + grant[4] * 0.05, grant.last.max].max,
-    low: [grant[4] - grant[4] * 0.05, grant.last.min].min
+    high: [grant[4] * 1.05, grant.last.max].max,
+    low: [grant[4] * 0.95, grant.last.min].min
+  }
+end
+
+def meta(grant)
+  {
+    time: Time.at(grant.first).to_datetime.strftime("%d %b %Y %H:%M:%S"),
+    percent_change: (grant.last.max - grant.last.min) / grant.last.max,
+    percent_gain: (grant[2] - grant[1]) / (grant.last.reduce(0, :+) / grant.last.count)
   }
 end
 
 grants = data["grants"].map do |grant|
   {
-    meta: {
-      time: Time.at(grant.first).to_datetime.strftime("%d %b %Y %H:%M:%S"),
-      percent_change: (grant.last.max - grant.last.min) / grant.last.max
-    },
+    meta: meta(grant),
     chart: {
       labels: labels(grant),
       series: [{
@@ -48,10 +53,7 @@ random = data["random"]
   .reverse
   .map do |random|
   {
-    meta: {
-      time: Time.at(random.first).to_datetime.strftime("%d %b %Y %H:%M:%S"),
-      percent_change: (random.last.max - random.last.min) / random.last.max
-    },
+    meta: meta(random),
     chart: {
       labels: labels(random),
       series: [{
@@ -65,12 +67,11 @@ end
 class ChartRenderer
   include ERB::Util
 
-  attr_accessor :template, :grants, :random
+  attr_accessor :template, :grants
 
   def initialize(template, grants, random)
     @template = template
     @grants = grants.zip(random)
-    #@random = random
   end
 
   def render()
