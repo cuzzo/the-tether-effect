@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>The Tether Effect</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"/>
+  <meta name="description" content="User Activity for HackerNews"/>
+  <link rel="shortcut icon" href="/favicon.png"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css" />
+  <style type="text/css">.lg-series{font-weight: bold}.lg-series-a{color: #d70206}.lg-series-b{color: #f05b4f}.lg-series-c{color: #f4c63b}.lg-series-d{color: #d17905}.lg-series-e{color: #453d3f}.lg-series-f{color: #59922b}.lg-series-g{color: #0544d3}.lg-series-h{color: #6b0392}.lg-series-i{color: #f05b4f}.chart{display: inline-block}</style>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js"></script>
+</head>
+<body>
+  <h1><a href="/" title="The Tether Effect">The Tether Effect</a></h1>
+
+
+  <% grants.each_with_index do |item, index| %>
+    <% grant = item.first; rand = item.last %>
+    <div class="row">
+      <div class="chart">
+        <h1><%= grant[:meta][:time] %> (<%= (grant[:meta][:percent_change] * 100).round(2) %>%)</h1>
+        <div class="grant" id="grant-<%= index %>"></div>
+      </div>
+      <div class="chart">
+        <h1><%= rand[:meta][:time] %> (<%= (rand[:meta][:percent_change] * 100).round(2) %>%)</h1>
+        <div class="random" id="random-<%= index %>"></div>
+      </div>
+    </div>
+  <% end %>
+
+  <script type="text/javascript">
+
+  <% grants.each_with_index do |item, index| %>
+    <% grant = item.first; rand = item.last %>
+    new Chartist.Line("#grant-<%= index %>", <%= grant[:chart].to_json %>, <%= grant[:options].to_json %>);
+    new Chartist.Line("#random-<%= index %>", <%= rand[:chart].to_json %>, <%= rand[:options].to_json %>);
+  <% end %>
+
+  </script>
+</body>
+</html>
